@@ -1,0 +1,69 @@
+# Git Reset vs Git Revert - Undoing Commits
+
+## Git Reset (Goes back in time)
+Moves backwards in history - "Pretend those commits never happened"
+
+```bash
+git reset --soft HEAD~2    # Go back 2 commits, changes in "cart" (staged)
+git reset HEAD~2           # Go back 2 commits, changes in working directory
+git reset --hard HEAD~2    # Go back 2 commits, changes DELETED completely
+```
+
+**Reset types:**
+- **--soft**: Changes go to staging area (ready to commit)
+- **--mixed** (default): Changes go to working directory (need to git add)
+- **--hard**: Changes are deleted forever
+
+## Git Revert (Creates new commit to undo)
+Stays at current time but creates new commits that undo old changes
+
+```bash
+git revert HEAD~2          # Revert ONLY the commit from 2 commits ago
+git revert HEAD~1..HEAD    # Revert BOTH of the last 2 commits  
+git revert abc1234         # Revert specific commit by hash
+```
+
+## Important Difference Between These Two Commands:
+
+**`git revert HEAD~2`**
+- UNDOES ONLY the single commit that happened 2 commits ago
+- Creates 1 new commit that removes what HEAD~2 added
+- Example: If HEAD~2 added a bug, this removes just that bug
+
+**`git revert HEAD~1..HEAD`** 
+- UNDOES BOTH of the last 2 commits (HEAD~1 and HEAD)
+- Creates 2 new commits (one to undo each commit)
+- Example: If last 2 commits both added bugs, this removes both bugs
+
+## Example Timeline:
+```
+Original: A -> B -> C -> D (HEAD)
+```
+
+**After `git revert HEAD~2` (reverts commit B):**
+```
+A -> B -> C -> D -> E (new commit that undoes B's changes)
+```
+
+**After `git revert HEAD~1..HEAD` (reverts commits C and D):**
+```
+A -> B -> C -> D -> E -> F (E undoes D, F undoes C)
+```
+
+**Key Point:** It's NOT about how many files - it's about how many COMMITS you want to undo!
+- 1 commit with 10 files? Use `git revert HEAD~2` 
+- 2 commits with 1 file each? Use `git revert HEAD~1..HEAD`
+
+## When to Use Which?
+
+**Use Reset when:**
+- You haven't pushed to remote yet
+- You want to completely remove commits from history
+- Working alone or sure no one else has the commits
+
+**Use Revert when:**
+- You've already pushed to remote
+- Working with others (safer - doesn't rewrite history)
+- You want to keep a record of the undo action
+
+**Remember:** Reset changes history, Revert adds to history!
