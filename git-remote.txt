@@ -3,7 +3,7 @@
 ## What is a Remote Repository?
 A remote repository is your project stored online (like on GitHub). Think of it as a backup copy of your code that lives in the cloud and allows others to collaborate with you.
 
-## Local vs Remote
+**Local vs Remote:**
 - **Local Repository**: Git folder on your computer
 - **Remote Repository**: Same project stored online (GitHub, GitLab, etc.)
 
@@ -14,38 +14,39 @@ A remote repository is your project stored online (like on GitHub). Think of it 
 git remote add origin https://github.com/username/repository-name.git
 git push -u origin main
 ```
-- Uses your GitHub username and password/token
-- Easier to set up
-- May ask for credentials each time
 
 ### Method 2: SSH (More secure, preferred)
 ```bash
 git remote add origin git@github.com:username/repository-name.git
 git push -u origin main
 ```
-- Uses SSH keys (like a digital fingerprint)
-- More secure
-- No password prompts once set up
 
-## Common Remote Commands
+## Essential Remote Commands
 ```bash
 git remote -v                    # See what remotes you have
 git remote add origin <url>      # Connect to a remote repository
-git push origin main             # Upload your commits to remote
-git pull origin main             # Download latest changes from remote
+git push -u origin main          # First push - sets up tracking
+git push                         # Subsequent pushes (after -u)
+git pull                         # Download latest changes
 git clone <url>                  # Copy a remote repository to your computer
 ```
 
-## Typical Workflow with Remote
+## Understanding Key Terms
+
+**"origin"** = Nickname for your remote repository URL (can be anything: backup, upstream, etc.)
+
+**"main"** = Branch name (used to be "master", can be anything: development, feature-login, etc.)
+
+**-u flag** = Sets up tracking so you can use `git push` instead of `git push origin main`
+
+## Typical Workflow
 1. Create repository on GitHub
-2. Connect your local project: `git remote add origin <url>`
-3. Push your code: `git push -u origin main`
-4. Make changes locally
-5. Commit changes: `git commit -m "message"`
-6. Push to remote: `git push`
+2. `git remote add origin <url>` - Connect to remote
+3. `git push -u origin main` - First push (sets up tracking)
+4. Make changes and commit locally
+5. `git push` - Push to remote (shortcut after -u)
 
 ## Why Use Remote Repositories?
-- **Backup**: Your code is safe online
-- **Collaboration**: Others can contribute to your project
+- **Backup**: Code is safe online
+- **Collaboration**: Others can contribute
 - **Sharing**: Show your work to the world
-- **Version History**: Complete project history stored online
