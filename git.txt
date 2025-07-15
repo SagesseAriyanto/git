@@ -18,14 +18,16 @@ Git is a version control system that tracks changes in your files over time. Thi
 ## Basic Commands
 
 ```bash
-git init          # Start tracking a folder
-git status        # Show which files are changed/new/deleted
-git add .         # Tell Git "I want to save these changes"
-git add file.txt  # Tell Git "I want to save changes to this specific file"
-git commit -m     # Actually save the changes with a message
-git push          # Upload to remote repository
-git pull          # Download latest changes
-git log           # See commit history
+git init                # Start tracking a folder
+git status              # Show which files are changed/new/deleted
+git diff file.txt       # See exactly what changed in your files
+git add .               # Tell Git "I want to save these changes"
+git add file.txt        # Tell Git "I want to save changes to this specific file"
+git commit -m "text"    # Actually save the changes with a message
+git checkout            # Switch branches or restore files
+git push                # Upload to remote repository
+git pull                # Download latest changes
+git log                 # See commit history
 ```
 
 ## Why Use Git?
@@ -38,20 +40,45 @@ git log           # See commit history
 ## Simple Workflow
 1. Make changes to your files
 2. `git status` (see what files you changed)
-3. `git add .` (tell Git "I want to save all these changes")
-4. `git commit -m "describe what you changed"` (actually save the snapshot)
-5. `git push` (backup to remote)
+3. `git diff` (see exactly what changed)
+4. `git add .` (tell Git "I want to save all these changes")
+5. `git commit -m "describe what you changed"` (actually save the snapshot)
+6. `git push` (backup to remote)
 
-## Understanding Git Add (Staging)
-Think of `git add` like putting items in a shopping cart before checkout:
-- **Working Directory**: Your files with changes (items in the store)
-- **Staging Area**: Files you've added with `git add` (items in your cart)
-- **Repository**: Files you've committed (items you've purchased)
+## Git Diff - See Your Changes
+`git diff` shows you exactly what you changed in your files:
 
-`git status` shows you:
-- Which files are modified (red = not in cart yet)
-- Which files are staged (green = in your cart, ready to commit)
-- Which files are new or deleted
+```bash
+git diff                    # See all unstaged changes
+git diff main.py           # See changes in specific file
+git diff --staged          # See changes you've already added
+```
+
+**Example output:**
+```
+- old line of code
++ new line of code
+```
+Red lines (with -) = what you removed
+Green lines (with +) = what you added
+
+## Git Checkout - Switch or Restore
+`git checkout` can do two main things:
+
+**1. Restore files (undo changes):**
+```bash
+git checkout main.py       # Throw away changes in main.py, restore from last commit
+git checkout .             # Restore ALL files to last commit
+```
+
+**2. Switch branches:**
+```bash
+git checkout main          # Switch to main branch
+git checkout feature-login # Switch to feature-login branch
+git checkout -b new-branch # Create and switch to new branch
+```
+
+**Warning**: `git checkout file.txt` will DELETE your unsaved changes!
 
 Git helps you never lose work and makes teamwork possible!
 
@@ -59,19 +86,11 @@ Git helps you never lose work and makes teamwork possible!
 
 **Scenario**: You changed 3 files: `main.py`, `style.css`, and `README.md`
 
-When you run `git status`, you see:
-```
-modified: main.py
-modified: style.css  
-modified: README.md
-```
-
 **Option 1: Add all files**
 ```bash
 git add .              # Puts ALL 3 changed files in your "cart"
 git commit -m "Fixed bugs and updated docs"
 ```
-Result: All 3 files are saved together in one commit.
 
 **Option 2: Add specific files**
 ```bash
@@ -81,11 +100,10 @@ git commit -m "Fixed login bug"
 git add style.css README.md    # Puts the other 2 files in your "cart"  
 git commit -m "Updated styling and docs"
 ```
-Result: You get 2 separate commits with different files.
 
-**Why add specific files?**
-- You fixed a bug in `main.py` (commit 1)
-- You updated styling in `style.css` (commit 2) 
-- You want separate commits for different types of changes
+**Think of it like a shopping cart:**
+- **Working Directory**: Your files with changes (items in the store)
+- **git add**: Put items in your cart
+- **git commit**: Purchase the items (save permanently)
 
-**Important**: `git add` doesn't change your files! It just tells Git "I want to include these changes in my next commit."
+**Important**: `git add` doesn't change your files! It just selects which changes to include in your next commit.
