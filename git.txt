@@ -1,0 +1,91 @@
+# Git - Version Control System
+
+## What is Git?
+Git is a version control system that tracks changes in your files over time. Think of it as a "save game" system for your code.
+
+## Key Concepts
+
+**Repository (Repo)**: A folder that Git is tracking. Contains all your project files and their history.
+
+**Commit**: A snapshot of your project at a specific point in time. Like saving your progress in a game.
+
+**Branch**: A separate line of development. You can work on features without affecting the main code.
+
+**Merge**: Combining changes from different branches back together.
+
+**Remote**: A version of your repository stored online (like GitHub).
+
+## Basic Commands
+
+```bash
+git init          # Start tracking a folder
+git status        # Show which files are changed/new/deleted
+git add .         # Tell Git "I want to save these changes"
+git add file.txt  # Tell Git "I want to save changes to this specific file"
+git commit -m     # Actually save the changes with a message
+git push          # Upload to remote repository
+git pull          # Download latest changes
+git log           # See commit history
+```
+
+## Why Use Git?
+- **Backup**: Your code is safe with complete history
+- **Collaboration**: Multiple people can work on the same project
+- **Experimentation**: Try new features without breaking working code
+- **History**: See exactly what changed and when
+- **Rollback**: Go back to any previous version if something breaks
+
+## Simple Workflow
+1. Make changes to your files
+2. `git status` (see what files you changed)
+3. `git add .` (tell Git "I want to save all these changes")
+4. `git commit -m "describe what you changed"` (actually save the snapshot)
+5. `git push` (backup to remote)
+
+## Understanding Git Add (Staging)
+Think of `git add` like putting items in a shopping cart before checkout:
+- **Working Directory**: Your files with changes (items in the store)
+- **Staging Area**: Files you've added with `git add` (items in your cart)
+- **Repository**: Files you've committed (items you've purchased)
+
+`git status` shows you:
+- Which files are modified (red = not in cart yet)
+- Which files are staged (green = in your cart, ready to commit)
+- Which files are new or deleted
+
+Git helps you never lose work and makes teamwork possible!
+
+## Git Add Examples
+
+**Scenario**: You changed 3 files: `main.py`, `style.css`, and `README.md`
+
+When you run `git status`, you see:
+```
+modified: main.py
+modified: style.css  
+modified: README.md
+```
+
+**Option 1: Add all files**
+```bash
+git add .              # Puts ALL 3 changed files in your "cart"
+git commit -m "Fixed bugs and updated docs"
+```
+Result: All 3 files are saved together in one commit.
+
+**Option 2: Add specific files**
+```bash
+git add main.py        # Only puts main.py in your "cart"
+git commit -m "Fixed login bug"
+
+git add style.css README.md    # Puts the other 2 files in your "cart"  
+git commit -m "Updated styling and docs"
+```
+Result: You get 2 separate commits with different files.
+
+**Why add specific files?**
+- You fixed a bug in `main.py` (commit 1)
+- You updated styling in `style.css` (commit 2) 
+- You want separate commits for different types of changes
+
+**Important**: `git add` doesn't change your files! It just tells Git "I want to include these changes in my next commit."
