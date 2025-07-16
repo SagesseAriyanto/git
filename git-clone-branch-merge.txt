@@ -1,0 +1,57 @@
+# Git Basics
+
+## Clone
+Creates a local copy of a remote repository with full history and working directory.
+
+```bash
+git clone <repository-url>
+git clone https://github.com/user/repo.git
+git clone --depth 1 <url>              # Shallow clone
+git clone -b <branch> <url>            # Clone FROM their specific branch
+```
+
+## Branching
+```bash
+git branch                             # List all branches
+git branch <name>                      # Create new branch
+git checkout <branch>                  # Switch to branch
+git checkout -b <name>                 # Create and switch to new branch
+git branch -d <name>                   # Delete branch
+```
+
+## Merging
+```bash
+git merge <branch>                     # Merge branch into current branch
+git merge --no-ff <branch>             # Merge with merge commit
+```
+
+**Merge workflow:**
+1. Switch to target branch: `git checkout main`
+2. Merge feature branch: `git merge feature-branch`
+3. Delete feature branch: `git branch -d feature-branch`
+
+## Push permissions & Ethics
+
+**Contributing to others' repos:**
+- **Proper way**: Fork → clone your fork → push → create Pull Request
+- **Why fork?** Maintains connection to original, gives credit, follows open source etiquette
+
+**Creating your own repo with their code:**
+- ✅ **Legal IF**: Their repo has open source license (MIT, GPL, etc.)
+- ❌ **Not okay**: Taking code without license or attribution
+- ⚠️ **Best practice**: Always fork instead of copying to new repo
+
+**License matters:**
+- Check for LICENSE file in their repo
+- MIT/Apache = usually okay to copy with attribution
+- No license = all rights reserved (don't copy)
+- GPL = must keep same license if you distribute
+
+**Golden rule**: When in doubt, fork and contribute back!
+
+## Key points
+- Downloads complete history and creates `.git` folder
+- Sets up remote tracking (origin → source repo)
+- Use `localhost:8080` not `0.0.0.0:8080` for local servers
+- Always create branches for new features
+- Merge back to main when feature is complete
