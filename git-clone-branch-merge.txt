@@ -12,7 +12,7 @@ git clone -b <branch> <url>            # Clone FROM their specific branch
 
 ## Branching
 ```bash
-git branch                             # List all branches
+git branch                             # List all branches (branch with * is current branch)
 git branch <name>                      # Create new branch
 git checkout <branch>                  # Switch to branch
 git checkout -b <name>                 # Create and switch to new branch

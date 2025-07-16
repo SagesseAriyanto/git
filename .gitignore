@@ -1,7 +1,9 @@
 # .gitignore - Tell Git which files to ignore
 
+Wordle-Game/
 # Ignore specific files
 secrets.txt
+git-clone-branch-merge.txt
 config.json
 .env
 
@@ -15,7 +17,6 @@ node_modules/           # Common for JavaScript projects
 __pycache__/            # Python cache folder
 .vscode/                # VS Code settings folder
 build/                  # Build output folder
-Wordle-Game/          # Specific game folder
 
 # Ignore files starting with specific patterns
 temp*                   # Files like temp1.txt, tempfile.log, etc.
