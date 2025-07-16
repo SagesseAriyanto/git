@@ -1,3 +1,32 @@
-# Ignore sensitive files
-secrets.txt
+# .gitignore - Tell Git which files to ignore
 
+# Ignore specific files
+secrets.txt
+config.json
+.env
+
+# Ignore all files with certain extensions
+*.log                   # All log files (.log)
+*.tmp                   # All temporary files (.tmp)
+*.cache                 # All cache files (.cache)
+
+# Ignore entire folders
+node_modules/           # Common for JavaScript projects
+__pycache__/            # Python cache folder
+.vscode/                # VS Code settings folder
+build/                  # Build output folder
+Wordle-Game/          # Specific game folder
+
+# Ignore files starting with specific patterns
+temp*                   # Files like temp1.txt, tempfile.log, etc.
+draft*                  # Files like draft.md, draft-notes.txt, etc.
+
+# Common patterns:
+# filename.txt          - Ignore specific file
+# *.extension           - Ignore all files with this extension
+# folder/               - Ignore entire folder and its contents
+# pattern*              - Ignore files starting with "pattern"
+# *pattern              - Ignore files ending with "pattern"
+# !important.log        - DON'T ignore this file (exception to *.log rule)
+
+# Remember: .gitignore only affects NEW files, not already tracked ones!
