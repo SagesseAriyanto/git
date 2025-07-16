@@ -107,3 +107,27 @@ git commit -m "Updated styling and docs"
 - **git commit**: Purchase the items (save permanently)
 
 **Important**: `git add` doesn't change your files! It just selects which changes to include in your next commit.
+
+## Removing from Staging Area (Cart)
+Sometimes you add files to your "cart" but change your mind before committing:
+
+```bash
+git reset HEAD filename.txt    # Remove specific file from cart
+git reset HEAD .               # Remove ALL files from cart
+git reset                      # Same as above (shortcut)
+```
+
+**Example scenario:**
+```bash
+git add .                      # Oops! Added everything including secrets.txt
+git status                     # Shows secrets.txt is staged (green)
+git reset HEAD secrets.txt     # Remove secrets.txt from cart
+git status                     # Now secrets.txt is unstaged (red)
+```
+
+**What happens:**
+- Files go back to "modified" status (red in git status)
+- Your changes are NOT deleted - they're still in your files
+- You can now add only the files you actually want
+
+**Remember:** `git reset HEAD` only unstages files - it doesn't delete your work!
