@@ -1,0 +1,54 @@
+# Fork & Pull Request Workflow
+
+## Repository Access Levels
+
+**Public User (No permissions):**
+- Can view and clone
+- Cannot push directly
+- Must use fork → PR workflow
+
+**Collaborator/Contributor (Write access):**
+- Can clone and push directly to original repo
+- No fork needed (but can still fork if desired)
+- Can create branches and merge PRs
+
+**Owner/Admin:**
+- Full control over repository
+- Can manage settings and permissions
+
+## Fork Workflow (for non-contributors)
+```bash
+# 1. Fork on GitHub (creates your copy)
+# 2. Clone YOUR fork
+git clone https://github.com/yourusername/their-repo.git
+
+# 3. Make changes, create branches, commit freely
+git checkout -b new-feature
+# ... make changes ...
+git add .
+git commit -m "Add new feature"
+
+# 4. Push to YOUR fork
+git push origin new-feature
+
+# 5. Create Pull Request on GitHub
+```
+
+## Direct Push Workflow (for contributors)
+```bash
+# 1. Clone original repo directly
+git clone https://github.com/owner/repo.git
+
+# 2. Make changes and push directly
+git checkout -b new-feature
+# ... make changes ...
+git add .
+git commit -m "Add new feature"
+git push origin new-feature  # No PR needed (but recommended for review)
+```
+
+## Key Points
+- Fork = for outsiders who want to contribute
+- Direct clone = for team members with access
+- Contributors can push directly but PRs are still good practice
+- Always work in feature branches

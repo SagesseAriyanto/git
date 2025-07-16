@@ -48,10 +48,3 @@ git merge --no-ff <branch>             # Merge with merge commit
 - GPL = must keep same license if you distribute
 
 **Golden rule**: When in doubt, fork and contribute back!
-
-## Key points
-- Downloads complete history and creates `.git` folder
-- Sets up remote tracking (origin → source repo)
-- Use `localhost:8080` not `0.0.0.0:8080` for local servers
-- Always create branches for new features
-- Merge back to main when feature is complete
