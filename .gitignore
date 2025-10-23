@@ -31,3 +31,4 @@ draft*                  # Files like draft.md, draft-notes.txt, etc.
 # !important.log        - DON'T ignore this file (exception to *.log rule)
 
 # Remember: .gitignore only affects NEW files, not already tracked ones!
+# use git rm --cached secrets.txt to remove from Git tracking

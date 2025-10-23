@@ -67,3 +67,5 @@ A -> B -> C -> D -> E -> F (E undoes D, F undoes C)
 - You want to keep a record of the undo action
 
 **Remember:** Reset changes history, Revert adds to history!
+
+random text
