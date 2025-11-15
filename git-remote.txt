@@ -13,6 +13,7 @@ A remote repository is your project stored online (like on GitHub). Think of it 
 ```bash
 git remote add origin https://github.com/username/repository-name.git
 git push -u origin main
+Note: this enables git push alone to work, but git push can only be assigned to one remote repository. Needs to overwrite to assign to another remote
 ```
 
 ### Method 2: SSH (More secure, preferred)
