@@ -2,7 +2,47 @@
 
 Use either merge (simple) or rebase (linear history). The number of commits on main doesn’t change the commands.
 
-Option A — Merge (keeps all merge commits)
+## Merge vs. Rebase Visualization
+
+**Before:** `main` has moved on since you created your `feature` branch.
+
+```
+      A---B---C (main)
+       \
+        D---E (feature)
+```
+
+---
+
+### Option A — Merge (keeps all merge commits)
+
+`git merge origin/main` creates a new "merge commit" (`F`) that joins the two histories.
+
+**Result:** A graph showing where branches diverged and were merged.
+
+```
+      A---B---C---F (main)
+       \         /
+        D---E---' (feature)
+```
+
+### Option B — Rebase (linear, cleaner history)
+
+`git rebase origin/main` rewrites your `feature` branch history to start *after* `main`'s latest work.
+
+**Result:** A clean, straight line. It looks like you did your work after `C` was finished.
+
+```
+      A---B---C (main)
+               \
+                D'---E' (feature)
+```
+
+---
+
+## The Commands
+
+### Option A — Merge
 
 ```bash
 git switch feature-x
@@ -12,7 +52,7 @@ git merge origin/main
 git push
 ```
 
-Option B — Rebase (linear, cleaner history)
+### Option B — Rebase
 
 ```bash
 git switch feature-x
@@ -24,7 +64,7 @@ git rebase --continue
 git push --force-with-lease
 ```
 
-If you have uncommitted changes
+## If you have uncommitted changes
 
 ```bash
 git stash -u
@@ -35,7 +75,7 @@ git rebase origin/main
 git stash pop
 ```
 
-Tips
+## Tips
 
 - Many commits on main: same process; rebase/merge more frequently to reduce conflicts.
 - Team avoids history rewrites? Prefer merge. Team wants a linear history? Prefer rebase.
