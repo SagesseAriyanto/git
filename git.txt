@@ -130,4 +130,4 @@ git status                     # Now secrets.txt is unstaged (red)
 - Your changes are NOT deleted - they're still in your files
 - You can now add only the files you actually want
 
-**Remember:** `git reset HEAD` only unstages files - it doesn't delete your work!
+**Remember:** `git reset HEAD filename.txt` only unstages files - it doesn't delete your work!

@@ -1,12 +1,12 @@
 # Git Basics
 
 ## Clone
-Creates a local copy of a remote repository with full history and working directory.
+Creates a local copy of a remote repository with full history and working directory.(huge)
 
 ```bash
-git clone <repository-url>
+git clone <repository-url>              # Normal clone - Downloads ALL history
 git clone https://github.com/user/repo.git
-git clone --depth 1 <url>              # Shallow clone
+git clone --depth 1 <url>              # Shallow clone - only latest commit (smaller)
 git clone -b <branch> <url>            # Clone FROM their specific branch
 ```
 
