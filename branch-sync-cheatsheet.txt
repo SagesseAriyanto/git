@@ -1,53 +1,268 @@
-# Sync a Feature Branch with main
+# Branch Sync & Git Workflow Cheat Sheet
 
-Use either merge (simple) or rebase (linear history). The number of commits on main doesn’t change the commands.
+## Understanding git fetch vs git pull
 
-Option A — Merge (keeps all merge commits)
+**git fetch** - Downloads changes but doesn't merge them:
+```
+Remote:     A---B---C---D (origin/main)
+                         
+Your local: A---B (main)
+            
+After fetch:
+Remote:     A---B---C---D (origin/main)
+                         
+Your local: A---B (main)
+             \
+              C---D (origin/main - updated reference)
+              
+You still need to merge or rebase manually!
+```
 
+**git pull** - Fetches AND merges in one command:
+```
+Remote:     A---B---C---D (origin/main)
+                         
+Your local: A---B (main)
+            
+After pull (fetch + merge):
+Your local: A---B---C---D (main)
+```
+
+Commands:
+```bash
+git fetch origin           # Download changes, don't apply them
+git pull origin main       # Download AND merge changes (fetch + merge)
+git pull                   # Shortcut if tracking is set up
+```
+
+---
+
+## Understanding git stash - Temporary Save
+
+**What is git stash?**
+Temporarily saves your uncommitted changes so you can switch branches or pull updates without losing work.
+
+**Visual workflow:**
+```
+Working Directory (before stash):
+  modified:   file1.txt
+  modified:   file2.txt
+  new file:   file3.txt
+
+After: git stash -u
+  Working directory is CLEAN
+  Changes saved in stash storage
+
+After: git stash pop
+  modified:   file1.txt
+  modified:   file2.txt  
+  new file:   file3.txt
+  (Changes restored!)
+```
+
+**Commands:**
+```bash
+git stash                  # Save tracked file changes only
+git stash -u               # Save tracked + untracked files (recommended)
+git stash save "message"   # Save with a description
+git stash list             # See all stashed changes
+git stash pop              # Apply most recent stash and remove it
+git stash apply            # Apply stash but keep it in stash list
+git stash drop             # Delete most recent stash
+git stash clear            # Delete all stashes
+```
+
+---
+
+## Merge vs Rebase - Visual Comparison
+
+**Scenario:** You're on feature-x branch, main has new commits
+
+Starting point:
+```
+main:       A---B---C---D
+                 \
+feature-x:        E---F
+```
+
+### Option A: Merge (Preserves History)
 ```bash
 git switch feature-x
 git fetch origin
 git merge origin/main
-# resolve conflicts, commit
-git push
 ```
 
-Option B — Rebase (linear, cleaner history)
+Result:
+```
+main:       A---B---C---D
+                 \       \
+feature-x:        E---F---M (merge commit)
+```
 
+**Pros:**
+- Preserves complete history
+- Safe - doesn't rewrite commits
+- Shows when branches were merged
+
+**Cons:**
+- Creates merge commits (can be messy)
+- Non-linear history
+
+---
+
+### Option B: Rebase (Linear History)
 ```bash
 git switch feature-x
 git fetch origin
 git rebase origin/main
-# resolve conflicts, then
-git rebase --continue
-# push rewritten history safely
+```
+
+Result:
+```
+main:       A---B---C---D
+                         \
+feature-x:                E'---F' (commits replayed on top)
+```
+
+**Pros:**
+- Clean, linear history
+- Easier to read git log
+- No merge commits
+
+**Cons:**
+- Rewrites commit history (changes commit hashes)
+- Requires force push
+- Can be confusing if not done carefully
+
+---
+
+## Sync a Feature Branch with main
+
+Use either merge (simple) or rebase (linear history). The number of commits on main doesn't change the commands.
+
+### Full Workflow with Uncommitted Changes
+
+**Step 1: Save your work**
+```bash
+git stash -u              # Temporarily save uncommitted changes
+```
+
+**Step 2: Choose merge OR rebase**
+
+**Option A — Merge:**
+```bash
+git switch feature-x
+git fetch origin          # Download latest changes
+git merge origin/main     # Combine main into your branch
+# If conflicts occur, resolve them, then:
+git add .
+git commit -m "Merge main into feature-x"
+```
+
+**Option B — Rebase:**
+```bash
+git switch feature-x
+git fetch origin          # Download latest changes
+git rebase origin/main    # Replay your commits on top of main
+# If conflicts occur, resolve them, then:
+git add .
+git rebase --continue     # Continue with next commit
+# Repeat until rebase completes
+```
+
+**Step 3: Restore your work**
+```bash
+git stash pop             # Restore your uncommitted changes
+```
+
+**Step 4: Push your changes**
+```bash
+# After merge:
+git push
+
+# After rebase (history was rewritten):
 git push --force-with-lease
 ```
 
-If you have uncommitted changes
+---
 
-```bash
-git stash -u
-# do one of the sync methods above
-# e.g. rebase:
-git fetch origin
-git rebase origin/main
-git stash pop
+## Visual: Complete Stash Workflow
+
+```
+You're on feature-x with uncommitted changes
+│
+├─ git stash -u
+│  → Changes saved, working directory clean
+│
+├─ git fetch origin
+│  → Downloads updates from remote
+│
+├─ git rebase origin/main (or merge)
+│  → Syncs your branch with main
+│  → If conflicts: fix → git add → git rebase --continue
+│
+├─ git stash pop
+│  → Restores your uncommitted changes
+│  → If conflicts: fix them manually
+│
+└─ git push --force-with-lease (if rebased)
+   → Uploads your updated branch
 ```
 
-Tips
+---
 
-- Many commits on main: same process; rebase/merge more frequently to reduce conflicts.
-- Team avoids history rewrites? Prefer merge. Team wants a linear history? Prefer rebase.
-- After rebase, always use `--force-with-lease` (not `--force`).
-- Really stale branch? You can also recreate it from the updated main and cherry-pick your work.
+## Tips & Best Practices
 
+**When to use what:**
+- **Many commits on main?** Same process; just rebase/merge more frequently to reduce conflicts
+- **Team avoids history rewrites?** Prefer merge
+- **Team wants linear history?** Prefer rebase
+- **Already pushed commits?** Be careful with rebase (use --force-with-lease)
+
+**Important flags:**
+- `git stash -u` → Include untracked files (new files you created)
+- `--force-with-lease` → Safer than `--force`, won't overwrite others' work
+- `git rebase --continue` → Continue after resolving conflicts during rebase
+- `git rebase --abort` → Cancel rebase and go back to before you started
+
+**Dealing with a really stale branch:**
+If your branch is very old and has many conflicts, you can recreate it:
 ```bash
 git switch main
 git fetch origin
 git pull
-# create a fresh branch and bring commits across if needed
+# Create a fresh branch from updated main
 git switch -c feature-new
-# cherry-pick commits you need (range or individual SHAs)
-# example range: git cherry-pick <startSHA>^..<endSHA>
+# Bring your commits over (cherry-pick)
+git cherry-pick <startSHA>^..<endSHA>
+```
+
+---
+
+## Quick Reference
+
+```bash
+# Save work temporarily
+git stash -u
+
+# Download latest changes (doesn't change your code)
+git fetch origin
+
+# Download AND merge changes
+git pull
+
+# Sync with main using merge
+git merge origin/main
+
+# Sync with main using rebase
+git rebase origin/main
+
+# Restore saved work
+git stash pop
+
+# Push after merge
+git push
+
+# Push after rebase (use with caution!)
+git push --force-with-lease
 ```
